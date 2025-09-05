@@ -15,14 +15,14 @@ class WelcomeScreen extends StatelessWidget {
         decoration: BoxDecoration(
         ),
         child: SingleChildScrollView(
-         
+
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 80),
 
               Image.asset(
-                'assets/images/logo.png', 
+                'assets/images/logo.png',
                 height: 160,
                 width: 160,
               ),
@@ -30,10 +30,10 @@ class WelcomeScreen extends StatelessWidget {
               SizedBox(height: 20),
 
               Text(
-                "Welcome to Career & Life Mentorship Program ",
+                "Welcome to Path with Purpose ",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 26, 
+                  fontSize: 26,
                   fontWeight: FontWeight.bold,
                   letterSpacing: 1.2,
                 ),
@@ -44,17 +44,17 @@ class WelcomeScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  "PathWay to Purpose is a mobile application designed to connect young individuals with "
-                  "experienced professionals for mentorship sessions."
-                  "request mentorship, and interact with mentors.",
+                  "Discover Your Path with Purpose\n"
+                      "Explore careers, build essential skills, and connect with mentors and peers worldwide. Start your journey today and shape the future with confidence.",
+
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16),
                 ),
               ),
 
-              SizedBox(height:160),
+              SizedBox(height: 160),
 
-              _buildButton(context, "Login", () {
+              _buildButton(context, "Log In", () {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (context) => LoginScreen()));
               }),
@@ -66,7 +66,7 @@ class WelcomeScreen extends StatelessWidget {
                     MaterialPageRoute(builder: (context) => SignupScreen()));
               }),
 
-              SizedBox(height: 50),
+              SizedBox(height: 15),
             ],
           ),
         ),
@@ -76,17 +76,25 @@ class WelcomeScreen extends StatelessWidget {
 
 
   Widget _buildButton(BuildContext context, String text, VoidCallback onTap) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 50, vertical: 14),
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30)), // Rounded buttons
-      ),
-      onPressed: onTap,
-      child: Text(text,
+    return SizedBox(
+      width: 250, // ✅ fixed width
+      height: 55, // ✅ fixed height
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          elevation: 5,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(30), // Rounded buttons
+          ),
+        ),
+        onPressed: onTap,
+        child: Text(
+          text,
           style: TextStyle(
-              fontSize: 18, fontWeight: FontWeight.bold)),
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
     );
   }
 }

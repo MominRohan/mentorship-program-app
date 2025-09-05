@@ -18,6 +18,7 @@ import 'approve_session_screen.dart';
 import 'chat_list_screen.dart';
 
 
+
 class MentorListScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<MentorListScreen> createState() => _MentorListScreenState();
@@ -57,10 +58,11 @@ class _MentorListScreenState extends ConsumerState<MentorListScreen> {
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(12),
-            color: Theme.of(context).primaryColor,
+            color: Theme.of(context).primaryColorDark,
             child: Text(
               _getWelcomeMessage(userRole),
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
+
               textAlign: TextAlign.center,
             ),
           ),
