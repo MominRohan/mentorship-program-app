@@ -5,7 +5,6 @@ Developer: SERGE MUNEZA
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/mentor_provider.dart';
-import '../models/user.dart';
 
 class PromoteMentorScreen extends ConsumerStatefulWidget {
   @override

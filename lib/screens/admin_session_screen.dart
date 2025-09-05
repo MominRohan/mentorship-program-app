@@ -5,7 +5,6 @@ Developer: SERGE MUNEZA
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/session_provider.dart';
-import '../models/session.dart';
 
 class AdminSessionScreen extends ConsumerStatefulWidget {
   @override

@@ -86,27 +86,6 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDeveloperInfo(
-      {required String imagePath, required String name}) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        CircleAvatar(
-          radius: 30,
-          backgroundImage: AssetImage(imagePath),
-        ),
-        SizedBox(width: 10),
-        Text(
-          name,
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
-      ],
-    );
-  }
 
   Widget _buildButton({required String text, required VoidCallback onTap}) {
     return ElevatedButton(

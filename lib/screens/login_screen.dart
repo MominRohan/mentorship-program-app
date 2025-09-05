@@ -5,7 +5,6 @@ Developer: SERGE MUNEZA
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/auth_provider.dart';
-import '../models/user.dart';
 import 'mentor_list_screen.dart';
 import 'signup_screen.dart';
 
@@ -23,7 +22,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authState = ref.watch(authProvider);
     final authNotifier = ref.read(authProvider.notifier);
 
     return Scaffold(

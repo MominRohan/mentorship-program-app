@@ -23,7 +23,6 @@ class _RequestSessionScreenState extends ConsumerState<RequestSessionScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final sessionState = ref.watch(sessionProvider);
     final authState = ref.watch(authProvider);
 
     return Scaffold(

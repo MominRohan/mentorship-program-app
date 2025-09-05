@@ -3,8 +3,6 @@ Developer: SERGE MUNEZA
  */
 
 import 'package:flutter/material.dart';
-import 'package:free_mentor/models/mentor.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/auth_provider.dart';
 import '../providers/mentor_provider.dart';
