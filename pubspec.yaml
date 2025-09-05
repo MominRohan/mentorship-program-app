@@ -32,6 +32,7 @@ dependencies:
   
   # UI Components
   cached_network_image: ^3.3.0  # For efficient image loading
+  url_launcher: ^6.2.2  # For launching URLs and external links
 
 dev_dependencies:
   flutter_test:

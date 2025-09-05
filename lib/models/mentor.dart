@@ -8,6 +8,7 @@ class Mentor {
   final String bio;
   final String occupation;
   final String expertise;
+  final bool isVerified;
   
   // Avatar URL for profile picture (will be populated with Firebase)
   String? get avatarUrl => null;
@@ -19,6 +20,7 @@ class Mentor {
     required this.bio,
     required this.occupation,
     required this.expertise,
+    this.isVerified = false,
   });
 
   // Convert Mentor object to JSON
@@ -30,6 +32,7 @@ class Mentor {
       "bio": bio,
       "occupation": occupation,
       "expertise": expertise,
+      "isVerified": isVerified ? 1 : 0,
     };
   }
 
@@ -42,6 +45,7 @@ class Mentor {
       bio: json["bio"],
       occupation: json["occupation"],
       expertise: json["expertise"],
+      isVerified: json["isVerified"] == 1,
     );
   }
 }

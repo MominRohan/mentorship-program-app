@@ -1,5 +1,5 @@
 /*
-Developer: SERGE MUNEZA
+Developer: Momin Rohan
  */
 
 import 'package:flutter/material.dart';
@@ -35,11 +35,34 @@ class _AdminSessionScreenState extends ConsumerState<AdminSessionScreen> {
     final sessionState = ref.watch(sessionProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text("All Mentorship Sessions")),
+      appBar: AppBar(
+        title: Text("All Mentorship Sessions"),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
+      ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : sessionState.sessions.isEmpty
-              ? Center(child: Text("No mentorship sessions found."))
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.assignment_outlined,
+                        size: 64,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        "No mentorship sessions found.",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               : RefreshIndicator(
                   onRefresh: _loadSessions, 
                   child: ListView.separated(

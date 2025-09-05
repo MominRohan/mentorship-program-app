@@ -51,11 +51,13 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color(0xFFBA8900), // primaryColor
+        foregroundColor: Colors.white,
         title: Row(
           children: [
             CircleAvatar(
               radius: 16,
-              backgroundColor: widget.chatRoom.type == ChatType.group ? Colors.green : Colors.blue,
+              backgroundColor: widget.chatRoom.type == ChatType.group ? Colors.green : Color(0xFFBA8900), // primaryColor
               backgroundImage: widget.chatRoom.imageUrl != null 
                   ? NetworkImage(widget.chatRoom.imageUrl!) 
                   : null,
@@ -85,15 +87,14 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   else if (widget.chatRoom.type == ChatType.group)
                     Text(
                       '${widget.chatRoom.participantIds.length} members',
-                      style: TextStyle(fontSize: 12, color: Colors.grey[300]),
+                      style: TextStyle(fontSize: 12, color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.3)),
                     ),
                 ],
               ),
             ),
           ],
         ),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
+        elevation: 0,
         actions: [
           IconButton(
             icon: Icon(Icons.videocam),
@@ -122,7 +123,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 value: 'info',
                 child: Row(
                   children: [
-                    Icon(Icons.info, color: Colors.blue),
+                    Icon(Icons.info, color: Color(0xFFBA8900)), // primaryColor
                     SizedBox(width: 8),
                     Text('Chat Info'),
                   ],
@@ -132,7 +133,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 value: 'search',
                 child: Row(
                   children: [
-                    Icon(Icons.search, color: Colors.blue),
+                    Icon(Icons.search, color: Color(0xFFBA8900)), // primaryColor
                     SizedBox(width: 8),
                     Text('Search'),
                   ],
@@ -213,21 +214,21 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           Icon(
             Icons.chat_bubble_outline,
             size: 64,
-            color: Colors.grey[400],
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
           SizedBox(height: 16),
           Text(
             'No messages yet',
             style: TextStyle(
               fontSize: 18,
-              color: Colors.grey[600],
+              color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
             ),
           ),
           SizedBox(height: 8),
           Text(
             'Start the conversation!',
             style: TextStyle(
-              color: Colors.grey[600],
+              color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
             ),
           ),
         ],
@@ -246,7 +247,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
             child: Text(
               _formatDateHeader(date),
               style: TextStyle(
-                color: Colors.grey[600],
+                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                 fontSize: 12,
               ),
             ),
@@ -286,7 +287,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               ),
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: isMe ? Colors.blue : Colors.grey[200],
+                color: isMe ? Color(0xFFBA8900) : Theme.of(context).colorScheme.surfaceVariant, // primaryColor
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(16),
                   topRight: Radius.circular(16),
@@ -305,7 +306,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                         style: TextStyle(
                           fontSize: 12,
                           fontWeight: FontWeight.bold,
-                          color: Colors.blue,
+                          color: Color(0xFFBA8900), // primaryColor
                         ),
                       ),
                     ),
@@ -331,7 +332,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                         _formatMessageTime(message.timestamp),
                         style: TextStyle(
                           fontSize: 10,
-                          color: isMe ? Colors.white70 : Colors.grey[600],
+                          color: isMe ? Colors.white70 : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                         ),
                       ),
                       if (message.editedAt != null) ...[
@@ -340,7 +341,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                           'edited',
                           style: TextStyle(
                             fontSize: 10,
-                            color: isMe ? Colors.white70 : Colors.grey[600],
+                            color: isMe ? Colors.white70 : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                             fontStyle: FontStyle.italic,
                           ),
                         ),
@@ -410,7 +411,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
               errorBuilder: (context, error, stackTrace) => Container(
                 width: 200,
                 height: 100,
-                color: Colors.grey[300],
+                color: Theme.of(context).colorScheme.surfaceVariant,
                 child: Icon(Icons.broken_image),
               ),
             ),
@@ -447,7 +448,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           margin: EdgeInsets.only(bottom: 4),
           padding: EdgeInsets.all(8),
           decoration: BoxDecoration(
-            color: isMe ? Colors.blue[700] : Colors.grey[300],
+            color: isMe ? Color(0xFFBA8900).withOpacity(0.8) : Theme.of(context).colorScheme.surfaceVariant, // primaryColor
             borderRadius: BorderRadius.circular(8),
           ),
           child: Row(
@@ -473,7 +474,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                     Text(
                       _formatFileSize(attachment.fileSize),
                       style: TextStyle(
-                        color: isMe ? Colors.white70 : Colors.grey[600],
+                        color: isMe ? Colors.white70 : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                         fontSize: 12,
                       ),
                     ),
@@ -491,12 +492,12 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
       padding: EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
-        border: Border(top: BorderSide(color: Colors.grey[300]!)),
+        border: Border(top: BorderSide(color: Theme.of(context).colorScheme.outline)),
       ),
       child: Row(
         children: [
           IconButton(
-            icon: Icon(Icons.attach_file, color: Colors.grey[600]),
+            icon: Icon(Icons.attach_file, color: Theme.of(context).colorScheme.onSurfaceVariant),
             onPressed: _showAttachmentOptions,
           ),
           Expanded(
@@ -509,7 +510,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                   borderSide: BorderSide.none,
                 ),
                 filled: true,
-                fillColor: Colors.grey[100],
+                fillColor: Theme.of(context).colorScheme.surfaceVariant,
                 contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               ),
               maxLines: null,
@@ -529,7 +530,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
           SizedBox(width: 8),
           FloatingActionButton(
             mini: true,
-            backgroundColor: Colors.blue,
+            backgroundColor: Color(0xFFBA8900), // primaryColor
             onPressed: _sendMessage,
             child: Icon(Icons.send, color: Colors.white),
           ),
@@ -596,7 +597,7 @@ class _ChatScreenState extends ConsumerState<ChatScreen> {
                 _buildAttachmentOption(
                   Icons.camera_alt,
                   'Camera',
-                  Colors.blue,
+                  Color(0xFFBA8900), // primaryColor
                   () => _pickImage(ImageSource.camera),
                 ),
                 _buildAttachmentOption(

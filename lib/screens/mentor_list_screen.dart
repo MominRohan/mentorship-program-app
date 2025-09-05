@@ -17,6 +17,7 @@ import 'promote_mentor_screen.dart';
 import 'approve_session_screen.dart';
 import 'chat_list_screen.dart';
 
+
 class MentorListScreen extends ConsumerStatefulWidget {
   @override
   ConsumerState<MentorListScreen> createState() => _MentorListScreenState();
@@ -47,58 +48,7 @@ class _MentorListScreenState extends ConsumerState<MentorListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("🎓 Mentor List"),
-        actions: [
-          // Chat button with unread count
-          Consumer(
-            builder: (context, ref, child) {
-              final totalUnreadCount = ref.watch(totalUnreadCountProvider);
-              return Stack(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.chat, size: 28),
-                    tooltip: "Messages",
-                    onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ChatListScreen()),
-                        ),
-                  ),
-                  if (totalUnreadCount > 0)
-                    Positioned(
-                      right: 6,
-                      top: 6,
-                      child: Container(
-                        padding: EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        constraints: BoxConstraints(
-                          minWidth: 16,
-                          minHeight: 16,
-                        ),
-                        child: Text(
-                          totalUnreadCount > 99 ? '99+' : totalUnreadCount.toString(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                ],
-              );
-            },
-          ),
-          if (userRole == "admin")
-            _buildIconButton(Icons.list, "All Sessions", AdminSessionScreen()), 
-          if (userRole == "user")
-            _buildIconButton(Icons.history, "Session History", SessionHistoryScreen()), 
-          if (userRole == "mentor")
-            _buildIconButton(Icons.check_circle, "Approve Sessions", ApproveSessionScreen()), 
-          _buildIconButton(Icons.logout, "Logout", null, logout: true), 
-        ],
+        automaticallyImplyLeading: false,
       ),
 
       body: Column(
@@ -107,7 +57,7 @@ class _MentorListScreenState extends ConsumerState<MentorListScreen> {
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(12),
-            color: Colors.blueAccent,
+            color: Theme.of(context).primaryColor,
             child: Text(
               _getWelcomeMessage(userRole),
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),
@@ -176,7 +126,7 @@ class _MentorListScreenState extends ConsumerState<MentorListScreen> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(Icons.person_off, size: 60, color: Colors.grey),
+          Icon(Icons.person_off, size: 60, color: Theme.of(context).colorScheme.onSurfaceVariant),
           SizedBox(height: 10),
           Text("No mentors available.", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
         ],
@@ -224,7 +174,7 @@ class _MentorListScreenState extends ConsumerState<MentorListScreen> {
       child: ListTile(
         contentPadding: EdgeInsets.all(12),
         leading: CircleAvatar(
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: Theme.of(context).primaryColor,
           child: Icon(Icons.person, color: Colors.white),
         ),
         title: Text(mentor.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),

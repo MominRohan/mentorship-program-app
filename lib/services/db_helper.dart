@@ -28,8 +28,20 @@ class DBHelper {
     final path = join(await getDatabasesPath(), 'mentors_app.db');
     return openDatabase(
       path,
-      version: 3, // Update version if modifying schema
+      version: 4, // Update version if modifying schema
       onCreate: (db, version) async {
+        await _createTables(db);
+      },
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 4) {
+          // Add age column if it doesn't exist
+          await db.execute('ALTER TABLE users ADD COLUMN age INTEGER');
+        }
+      },
+    );
+  }
+
+  static Future<void> _createTables(Database db) async {
         await db.execute('''
           CREATE TABLE users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -37,11 +49,13 @@ class DBHelper {
             lastName TEXT NOT NULL,
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
-            address TEXT NOT NULL,
-            bio TEXT NOT NULL,
-            occupation TEXT NOT NULL,
-            expertise TEXT NOT NULL,
-            role TEXT DEFAULT 'user' NOT NULL
+            address TEXT DEFAULT '',
+            bio TEXT DEFAULT '',
+            occupation TEXT DEFAULT '',
+            expertise TEXT DEFAULT '',
+            role TEXT DEFAULT 'user' NOT NULL,
+            isVerified INTEGER DEFAULT 0,
+            age INTEGER
           )
         ''');
 
@@ -54,37 +68,18 @@ class DBHelper {
             isApproved INTEGER DEFAULT 0
           )
         ''');
-        
-        // Create chat tables
-        await ChatService.createChatTables(db);
-      },
-      onUpgrade: (db, oldVersion, newVersion) async {
-        if (oldVersion < 2) {
-          await db
-              .execute("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user'");
-        }
-        if (oldVersion < 3) {
-          // Create chat tables for existing databases
-          await ChatService.createChatTables(db);
-        }
-      },
-    );
   }
 
 // Insert New User (Signup)
   static Future<int> insertUser(User user) async {
     final db = await database;
 
-    // Prevent empty fields from being inserted
+    // Prevent empty required fields from being inserted
     if (user.firstName.isEmpty ||
         user.lastName.isEmpty ||
         user.email.isEmpty ||
-        user.password.isEmpty ||
-        user.address.isEmpty ||
-        user.bio.isEmpty ||
-        user.occupation.isEmpty ||
-        user.expertise.isEmpty) {
-      print("❌ Signup failed: Empty fields are not allowed!");
+        user.password.isEmpty) {
+      print("❌ Signup failed: Required fields are empty!");
       return -1; // Indicate error
     }
 
@@ -185,6 +180,7 @@ class DBHelper {
                 bio: data["bio"] ?? "No bio available",
                 occupation: data["occupation"] ?? "Unknown occupation",
                 expertise: data["expertise"] ?? "Unknown expertise",
+                isVerified: data["isVerified"] == 1,
               ))
           .toList();
     } catch (e) {
@@ -269,6 +265,66 @@ class DBHelper {
       {"isApproved": -1}, // -1 = Rejected
       where: "id = ?",
       whereArgs: [sessionId],
+    );
+  }
+
+  // Update user verification status
+  static Future<int> updateUserVerification(int userId, bool isVerified) async {
+    final db = await database;
+    return await db.update(
+      "users",
+      {"isVerified": isVerified ? 1 : 0},
+      where: "id = ?",
+      whereArgs: [userId],
+    );
+  }
+
+  // Update mentor verification status
+  static Future<int> updateMentorVerification(int userId, bool isVerified) async {
+    final db = await database;
+    return await db.update(
+      "users",
+      {"isVerified": isVerified ? 1 : 0},
+      where: "id = ? AND role = 'mentor'",
+      whereArgs: [userId],
+    );
+  }
+
+  // Delete user by ID
+  static Future<int> deleteUser(int userId) async {
+    final db = await database;
+    return await db.delete(
+      "users",
+      where: "id = ?",
+      whereArgs: [userId],
+    );
+  }
+
+  // Delete mentor by ID
+  static Future<int> deleteMentor(int userId) async {
+    final db = await database;
+    return await db.delete(
+      "users",
+      where: "id = ? AND role = 'mentor'",
+      whereArgs: [userId],
+    );
+  }
+
+  // Get all users including admins and mentors
+  static Future<List<User>> getAllUsersIncludingRoles() async {
+    final db = await database;
+    List<Map<String, dynamic>> results = await db.query("users");
+    return results.map((data) => User.fromJson(data)).toList();
+  }
+
+  // Update user role
+  static Future<int> updateUserRole(int userId, String newRole) async {
+    final db = await database;
+    return await db.update(
+      "users",
+      {"role": newRole},
+      where: "id = ?",
+      whereArgs: [userId],
     );
   }
 }

@@ -37,7 +37,7 @@ class _CreateGroupChatScreenState extends ConsumerState<CreateGroupChatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('New Group Chat'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Theme.of(context).primaryColor,
         foregroundColor: Colors.white,
         actions: [
           TextButton(
@@ -66,8 +66,8 @@ class _CreateGroupChatScreenState extends ConsumerState<CreateGroupChatScreen> {
                 // Group avatar placeholder
                 CircleAvatar(
                   radius: 40,
-                  backgroundColor: Colors.grey[300],
-                  child: Icon(Icons.group, size: 40, color: Colors.grey[600]),
+                  backgroundColor: Theme.of(context).colorScheme.surfaceVariant,
+                  child: Icon(Icons.group, size: 40, color: Theme.of(context).colorScheme.onSurfaceVariant),
                 ),
                 SizedBox(height: 16),
                 
@@ -107,7 +107,7 @@ class _CreateGroupChatScreenState extends ConsumerState<CreateGroupChatScreen> {
             padding: EdgeInsets.all(16),
             child: Row(
               children: [
-                Icon(Icons.people, color: Colors.blue),
+                Icon(Icons.people, color: Theme.of(context).primaryColor),
                 SizedBox(width: 8),
                 Text(
                   'Add Participants (${_selectedParticipants.length})',
@@ -180,11 +180,11 @@ class _CreateGroupChatScreenState extends ConsumerState<CreateGroupChatScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.people_outline, size: 64, color: Colors.grey[400]),
+                        Icon(Icons.people_outline, size: 64, color: Theme.of(context).colorScheme.onSurfaceVariant),
                         SizedBox(height: 16),
                         Text(
                           'No more participants available',
-                          style: TextStyle(color: Colors.grey[600]),
+                          style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6)),
                         ),
                       ],
                     ),

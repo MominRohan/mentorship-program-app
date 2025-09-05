@@ -34,8 +34,6 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Messages'),
-        backgroundColor: Colors.blue,
-        foregroundColor: Colors.white,
         actions: [
           if (totalUnreadCount > 0)
             Padding(
@@ -74,7 +72,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
                 value: 'new_group',
                 child: Row(
                   children: [
-                    Icon(Icons.group_add, color: Colors.blue),
+                    Icon(Icons.group_add, color: Theme.of(context).primaryColor),
                     SizedBox(width: 8),
                     Text('New Group'),
                   ],
@@ -84,7 +82,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
                 value: 'search',
                 child: Row(
                   children: [
-                    Icon(Icons.search, color: Colors.blue),
+                    Icon(Icons.search, color: Theme.of(context).primaryColor),
                     SizedBox(width: 8),
                     Text('Search Messages'),
                   ],
@@ -171,7 +169,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _navigateToCreateGroup,
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFFBA8900), // primaryColor
         child: Icon(Icons.chat, color: Colors.white),
         tooltip: 'New Chat',
       ),
@@ -194,7 +192,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
       margin: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: chatRoom.type == ChatType.group ? Colors.green : Colors.blue,
+          backgroundColor: chatRoom.type == ChatType.group ? Colors.green : Theme.of(context).primaryColor,
           backgroundImage: chatRoom.imageUrl != null ? NetworkImage(chatRoom.imageUrl!) : null,
           child: chatRoom.imageUrl == null
               ? Icon(
@@ -219,7 +217,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
                 _formatTime(chatRoom.lastMessageTime!),
                 style: TextStyle(
                   fontSize: 12,
-                  color: Colors.grey[600],
+                  color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                   fontWeight: unreadCount > 0 ? FontWeight.bold : FontWeight.normal,
                 ),
               ),
@@ -231,7 +229,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
               child: Text(
                 chatRoom.lastMessage ?? 'No messages yet',
                 style: TextStyle(
-                  color: unreadCount > 0 ? Colors.black87 : Colors.grey[600],
+                  color: unreadCount > 0 ? Colors.black87 : Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                   fontWeight: unreadCount > 0 ? FontWeight.w500 : FontWeight.normal,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -243,7 +241,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
                 margin: EdgeInsets.only(left: 8),
                 padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                 decoration: BoxDecoration(
-                  color: Colors.blue,
+                  color: Theme.of(context).primaryColor,
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
@@ -271,7 +269,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
           Icon(
             Icons.chat_bubble_outline,
             size: 64,
-            color: Colors.grey[400],
+            color: Theme.of(context).colorScheme.onSurfaceVariant,
           ),
           SizedBox(height: 16),
           Text(
@@ -279,14 +277,14 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
-              color: Colors.grey[600],
+              color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
             ),
           ),
           SizedBox(height: 8),
           Text(
             'Start a conversation with a mentor or mentee',
             style: TextStyle(
-              color: Colors.grey[600],
+              color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
             ),
             textAlign: TextAlign.center,
           ),
@@ -296,7 +294,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
             icon: Icon(Icons.add),
             label: Text('Start New Chat'),
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
+              backgroundColor: Color(0xFFBA8900), // primaryColor
               foregroundColor: Colors.white,
             ),
           ),
@@ -360,7 +358,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              leading: Icon(Icons.info, color: Colors.blue),
+              leading: Icon(Icons.add, color: Theme.of(context).primaryColor),
               title: Text('Chat Info'),
               onTap: () {
                 Navigator.pop(context);

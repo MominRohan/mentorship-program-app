@@ -28,7 +28,7 @@ class MentorDetailScreen extends ConsumerWidget {
             Center(
               child: Text(
                 "👋 Welcome to the Mentor Details Screen",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.blue),
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -74,7 +74,7 @@ class MentorDetailScreen extends ConsumerWidget {
                       style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                     ),
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blue,
+                      backgroundColor: Color(0xFFBA8900), // primaryColor
                       foregroundColor: Colors.white,
                       padding: EdgeInsets.symmetric(vertical: 12),
                     ),

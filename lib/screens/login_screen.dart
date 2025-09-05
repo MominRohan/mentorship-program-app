@@ -5,7 +5,7 @@ Developer: Momin Rohan
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/auth_provider.dart';
-import 'mentor_list_screen.dart';
+import '../utils/routes.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -25,7 +25,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     final authNotifier = ref.read(authProvider.notifier);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Login")),
+        appBar: AppBar(
+          title: Text('Login'),
+        ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
@@ -35,7 +37,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               children: [
                 Text(
                   "Welcome Back! 👋",
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).colorScheme.onSurface,
+                  ),
                 ),
                 SizedBox(height: 20),
 
@@ -92,9 +98,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             setState(() => _isLoading = false);
 
                             if (success) {
-                              Navigator.pushReplacement(
+                              Navigator.pushReplacementNamed(
                                 context,
-                                MaterialPageRoute(builder: (context) => MentorListScreen()),
+                                AppRoutes.home,
                               );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -110,20 +116,22 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                       ? CircularProgressIndicator(color: Colors.white)
                       : Text("Login"),
                   style: ElevatedButton.styleFrom(
-                    minimumSize: Size(double.infinity, 50),
-                    textStyle: TextStyle(fontSize: 18),
-                  ),
+              minimumSize: Size(double.infinity, 50),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
                 ),
                 SizedBox(height: 15),
 
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignupScreen()),
-                    );
+                    Navigator.pushNamed(context, AppRoutes.signup);
                   },
-                  child: Text("Don't have an account? Sign up"),
+                  child: Text(
+                    "Don't have an account? Sign up",
+                    style: TextStyle(color: Theme.of(context).colorScheme.primary),
+                  ),
                 ),
               ],
             ),

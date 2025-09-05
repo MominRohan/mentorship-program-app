@@ -39,7 +39,7 @@ class _UserVerificationScreenState extends ConsumerState<UserVerificationScreen>
     return Scaffold(
       appBar: AppBar(
         title: Text('Account Verification'),
-        backgroundColor: Colors.blue,
+        backgroundColor: Color(0xFFBA8900), // primaryColor
         foregroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
@@ -52,26 +52,25 @@ class _UserVerificationScreenState extends ConsumerState<UserVerificationScreen>
               width: double.infinity,
               padding: EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Column(
                 children: [
-                  Icon(Icons.verified_user, size: 48, color: Colors.blue),
+                  Icon(Icons.verified_user, size: 48, color: Color(0xFFBA8900)), // primaryColor
                   SizedBox(height: 8),
                   Text(
                     'Verify Your Account',
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
-                      color: Colors.blue,
+                      color: Color(0xFFBA8900), // primaryColor
                     ),
                   ),
                   SizedBox(height: 8),
                   Text(
                     'Upload the required documents to verify your account and gain access to all features.',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.grey[600]),
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6)),
                   ),
                 ],
               ),
@@ -107,7 +106,7 @@ class _UserVerificationScreenState extends ConsumerState<UserVerificationScreen>
               child: ElevatedButton(
                 onPressed: _canSubmit() && !_isSubmitting ? _submitVerification : null,
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue,
+                  backgroundColor: Color(0xFFBA8900), // primaryColor
                   foregroundColor: Colors.white,
                   padding: EdgeInsets.symmetric(vertical: 16),
                 ),
@@ -163,7 +162,7 @@ class _UserVerificationScreenState extends ConsumerState<UserVerificationScreen>
         statusIcon = Icons.pending;
         break;
       case UserVerificationStatus.inReview:
-        statusColor = Colors.blue;
+        statusColor = Color(0xFFBA8900); // primaryColor
         statusText = 'Under Review';
         statusIcon = Icons.rate_review;
         break;
@@ -204,7 +203,7 @@ class _UserVerificationScreenState extends ConsumerState<UserVerificationScreen>
                   'Verification Status',
                   style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey[600],
+                    color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                   ),
                 ),
                 Text(
@@ -237,7 +236,7 @@ class _UserVerificationScreenState extends ConsumerState<UserVerificationScreen>
               children: [
                 Icon(
                   _getDocumentIcon(documentType),
-                  color: isUploaded ? Colors.green : Colors.grey,
+                  color: isUploaded ? Colors.green : Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
                 SizedBox(width: 12),
                 Expanded(
@@ -254,7 +253,7 @@ class _UserVerificationScreenState extends ConsumerState<UserVerificationScreen>
                       Text(
                         description,
                         style: TextStyle(
-                          color: Colors.grey[600],
+                          color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
                           fontSize: 14,
                         ),
                       ),

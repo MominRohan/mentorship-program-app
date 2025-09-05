@@ -1,5 +1,5 @@
 /*
-Developer: SERGE MUNEZA
+Developer: Momin Rohan
  */
 
 import 'package:flutter/material.dart';
@@ -31,11 +31,34 @@ class _ApproveSessionScreenState extends ConsumerState<ApproveSessionScreen> {
     final sessionState = ref.watch(sessionProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Mentorship Requests")),
+      appBar: AppBar(
+        title: Text("Mentorship Requests"),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
+      ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : sessionState.sessions.isEmpty
-              ? Center(child: Text("No pending session requests."))
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.inbox_outlined,
+                        size: 64,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        "No pending session requests.",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               : ListView.builder(
                   itemCount: sessionState.sessions.length,
                   itemBuilder: (context, index) {
@@ -58,6 +81,10 @@ class _ApproveSessionScreenState extends ConsumerState<ApproveSessionScreen> {
                                           await ref.read(sessionProvider.notifier).approveSession(session.id!, session.mentorEmail);
                                           setState(() => _isLoading = false);
                                         },
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.green,
+                                          foregroundColor: Colors.white,
+                                        ),
                                         child: Text("Approve"),
                                       ),
                                       SizedBox(width: 10),

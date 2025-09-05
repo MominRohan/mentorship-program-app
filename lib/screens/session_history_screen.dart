@@ -1,5 +1,5 @@
 /*
-Developer: SERGE MUNEZA
+Developer:Momin Rohan
  */
 
 import 'package:flutter/material.dart';
@@ -34,11 +34,34 @@ class _SessionHistoryScreenState extends ConsumerState<SessionHistoryScreen> {
     final sessionState = ref.watch(sessionProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Session History")),
+      appBar: AppBar(
+        title: Text("Session History"),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
+      ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : sessionState.sessions.isEmpty
-              ? Center(child: Text("No past mentorship sessions."))
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.history,
+                        size: 64,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        "No past mentorship sessions.",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               : ListView.builder(
                   itemCount: sessionState.sessions.length,
                   itemBuilder: (context, index) {

@@ -33,11 +33,34 @@ class _PromoteMentorScreenState extends ConsumerState<PromoteMentorScreen> {
     final mentorState = ref.watch(mentorProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Promote Users to Mentor")),
+      appBar: AppBar(
+        title: Text("Promote Users to Mentor"),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
+      ),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : mentorState.users.isEmpty
-              ? Center(child: Text("No users available."))
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.people_outline,
+                        size: 64,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                      SizedBox(height: 16),
+                      Text(
+                        "No users available.",
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.6),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
               : ListView.builder(
                   itemCount: mentorState.users.length,
                   itemBuilder: (context, index) {
@@ -60,6 +83,10 @@ class _PromoteMentorScreenState extends ConsumerState<PromoteMentorScreen> {
                                   setState(() => _isLoading = true);
                                   await _loadUsers();
                                 },
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Color(0xFFBA8900), // primaryColor
+                                  foregroundColor: Colors.white,
+                                ),
                                 child: Text("Promote"),
                               ),
                       ),

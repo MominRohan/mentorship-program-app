@@ -62,6 +62,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'providers/auth_provider.dart';
 import 'providers/mentor_provider.dart';
 import 'providers/session_provider.dart';
+import 'providers/theme_provider.dart';
 import 'utils/routes.dart';
 
 void main() {
@@ -69,13 +70,17 @@ void main() {
   runApp(ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final themeState = ref.watch(themeProvider);
+    
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Free Mentors",
-      theme: ThemeData(primarySwatch: Colors.blue),
+      title: "Mentorship App",
+      theme: AppTheme.lightTheme,
+      darkTheme: AppTheme.darkTheme,
+      themeMode: themeState.themeMode,
       initialRoute: AppRoutes.welcome,
       onGenerateRoute: AppRoutes.generateRoute,
     );

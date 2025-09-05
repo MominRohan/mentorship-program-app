@@ -26,17 +26,31 @@ class _RequestSessionScreenState extends ConsumerState<RequestSessionScreen> {
     final authState = ref.watch(authProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Request Session")),
+      appBar: AppBar(
+        title: Text("Request Session"),
+        backgroundColor: Theme.of(context).primaryColor,
+        foregroundColor: Colors.white,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Mentor: ${widget.mentor.name}", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            Text(
+              "Mentor: ${widget.mentor.name}",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
             SizedBox(height: 10),
             TextField(
               controller: _questionsController,
-              decoration: InputDecoration(labelText: "Enter your questions"),
+              decoration: InputDecoration(
+                labelText: "Enter your questions",
+                border: OutlineInputBorder(),
+              ),
               maxLines: 4,
             ),
             SizedBox(height: 20),
@@ -55,6 +69,11 @@ class _RequestSessionScreenState extends ConsumerState<RequestSessionScreen> {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Session request sent!")));
                       Navigator.pop(context);
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Color(0xFFBA8900), // primaryColor
+                      foregroundColor: Colors.white,
+                      minimumSize: Size(double.infinity, 50),
+                    ),
                     child: Text("Request Session"),
                   ),
           ],

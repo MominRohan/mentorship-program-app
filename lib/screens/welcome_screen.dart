@@ -13,11 +13,6 @@ class WelcomeScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.blue.shade300, Colors.blue.shade700],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
         ),
         child: SingleChildScrollView(
          
@@ -40,7 +35,6 @@ class WelcomeScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 26, 
                   fontWeight: FontWeight.bold,
-                  color: Colors.white,
                   letterSpacing: 1.2,
                 ),
               ),
@@ -54,29 +48,23 @@ class WelcomeScreen extends StatelessWidget {
                   "experienced professionals for mentorship sessions."
                   "request mentorship, and interact with mentors.",
                   textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16, color: Colors.white70),
+                  style: TextStyle(fontSize: 16),
                 ),
               ),
 
               SizedBox(height:160),
 
-              _buildButton(
-                text: "Login",
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()));
-                },
-              ),
+              _buildButton(context, "Login", () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => LoginScreen()));
+              }),
 
               SizedBox(height: 15),
 
-              _buildButton(
-                text: "Sign Up",
-                onTap: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => SignupScreen()));
-                },
-              ),
+              _buildButton(context, "Sign Up", () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => SignupScreen()));
+              }),
 
               SizedBox(height: 50),
             ],
@@ -87,10 +75,9 @@ class WelcomeScreen extends StatelessWidget {
   }
 
 
-  Widget _buildButton({required String text, required VoidCallback onTap}) {
+  Widget _buildButton(BuildContext context, String text, VoidCallback onTap) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
         padding: EdgeInsets.symmetric(horizontal: 50, vertical: 14),
         elevation: 5,
         shape: RoundedRectangleBorder(
@@ -99,7 +86,7 @@ class WelcomeScreen extends StatelessWidget {
       onPressed: onTap,
       child: Text(text,
           style: TextStyle(
-              color: Colors.blue, fontSize: 18, fontWeight: FontWeight.bold)),
+              fontSize: 18, fontWeight: FontWeight.bold)),
     );
   }
 }
