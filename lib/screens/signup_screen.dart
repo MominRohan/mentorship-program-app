@@ -1,5 +1,5 @@
 /*
-Developer: SERGE MUNEZA
+Developer: Momin Rohan
  */
 
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
     return Scaffold(
       appBar: AppBar(title: Text("Signup")),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(17.0),
         child: Form(
           key: _formKey,
           child: Column(
@@ -51,7 +51,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     value!.isEmpty ? "Enter your first name" : null,
               ),
 
-             
+              SizedBox(height: 16),
+
               TextFormField(
                 controller: _lastNameController,
                 decoration: InputDecoration(
@@ -62,6 +63,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                 validator: (value) =>
                     value!.isEmpty ? "Enter your last name" : null,
               ),
+
+              SizedBox(height: 16),
 
               TextFormField(
                 controller: _emailController,
@@ -81,6 +84,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                 },
               ),
 
+              SizedBox(height: 16),
+
               TextFormField(
                 controller: _passwordController,
                 decoration: InputDecoration(
@@ -94,6 +99,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     : null,
               ),
 
+              SizedBox(height: 16),
+
               TextFormField(
                 controller: _addressController,
                 decoration: InputDecoration(
@@ -105,6 +112,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     value!.isEmpty ? "Enter your address" : null,
               ),
 
+              SizedBox(height: 16),
+
               TextFormField(
                 controller: _bioController,
                 decoration: InputDecoration(
@@ -114,6 +123,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                 ),
                 validator: (value) => value!.isEmpty ? "Enter your bio" : null,
               ),
+
+              SizedBox(height: 16),
 
               TextFormField(
                 controller: _occupationController,
@@ -126,6 +137,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     value!.isEmpty ? "Enter your occupation" : null,
               ),
 
+              SizedBox(height: 16),
+
               TextFormField(
                 controller: _expertiseController,
                 decoration: InputDecoration(
@@ -137,6 +150,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                     value!.isEmpty ? "Enter your expertise" : null,
               ),
 
+              SizedBox(height: 16),
 
               _buildRoleDropdown(),
 
