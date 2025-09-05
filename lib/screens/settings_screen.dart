@@ -389,8 +389,7 @@ class SettingsScreen extends ConsumerWidget {
       children: const [
         Text('A comprehensive mentorship platform connecting mentors and mentees.'),
         SizedBox(height: 16),
-        Text('Developed by: SERGE MUNEZA'),
-        Text('Student ID: 20248/2022'),
+
       ],
     );
   }

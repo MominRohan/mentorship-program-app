@@ -39,6 +39,7 @@ dependencies:
   # firebase_auth: ^4.15.3
 
 dev_dependencies:
+
   flutter_test:
     sdk: flutter
 
@@ -50,6 +51,8 @@ flutter_launcher_icons:
   android: true
   ios: true
   image_path: "assets/icon/app_icon.png"
+
+
 
 flutter:
   uses-material-design: true
