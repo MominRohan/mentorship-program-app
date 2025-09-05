@@ -1,5 +1,5 @@
 /*
-Developer: SERGE MUNEZA
+Developer: Momin Rohan
  */
 
 import 'package:flutter/material.dart';
@@ -33,6 +33,22 @@ class MentorDetailScreen extends StatelessWidget {
             _buildDetailSection("📖 Bio", mentor.bio),
             _buildDetailSection("💼 Occupation", mentor.occupation),
             _buildDetailSection("🎓 Expertise", mentor.expertise),
+
+
+
+
+            SizedBox(height: 20),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/request_session', arguments: mentor);
+                },
+                child: Text(
+                    "Request Session",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.blueAccent),
+                ),
+              ),
+            ),
 
             SizedBox(height: 20),
             Center(

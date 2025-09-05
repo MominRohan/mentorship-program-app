@@ -1,5 +1,5 @@
 /*
-Developer: SERGE MUNEZA
+Developer: Momin Rohan
  */
 
 class User {

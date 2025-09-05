@@ -62,13 +62,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'providers/auth_provider.dart';
 import 'providers/mentor_provider.dart';
 import 'providers/session_provider.dart';
-import 'screens/welcome_screen.dart';
-import 'screens/login_screen.dart';
-import 'screens/signup_screen.dart';
-import 'screens/mentor_list_screen.dart';
-import 'screens/promote_mentor_screen.dart';
-import 'screens/session_history_screen.dart';
-import 'screens/admin_session_screen.dart';
+import 'screens/routes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -82,16 +76,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "Free Mentors",
       theme: ThemeData(primarySwatch: Colors.blue),
-      home: WelcomeScreen(),
-      routes: {
-        '/welcome': (context) => WelcomeScreen(),
-        '/login': (context) => LoginScreen(),
-        '/signup': (context) => SignupScreen(),
-        '/mentors': (context) => MentorListScreen(),
-        '/promote': (context) => PromoteMentorScreen(),
-        '/session_history': (context) => SessionHistoryScreen(),
-        '/admin_sessions': (context) => AdminSessionScreen(),
-      },
+      initialRoute: AppRoutes.welcome,
+      routes: AppRoutes.getRoutes(),
+      onGenerateRoute: AppRoutes.generateRoute,
     );
   }
 }
