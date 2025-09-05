@@ -33,6 +33,10 @@ dependencies:
   # UI Components
   cached_network_image: ^3.3.0  # For efficient image loading
   url_launcher: ^6.2.2  # For launching URLs and external links
+  
+  # Firebase (Commented out for now - uncomment when ready to use)
+  # firebase_core: ^2.24.2
+  # firebase_auth: ^4.15.3
 
 dev_dependencies:
   flutter_test:
