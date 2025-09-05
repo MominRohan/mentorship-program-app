@@ -47,58 +47,7 @@ class _MentorListScreenState extends ConsumerState<MentorListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text("🎓 Mentor List"),
-        actions: [
-          // Chat button with unread count
-          Consumer(
-            builder: (context, ref, child) {
-              final totalUnreadCount = ref.watch(totalUnreadCountProvider);
-              return Stack(
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.chat, size: 28),
-                    tooltip: "Messages",
-                    onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => ChatListScreen()),
-                        ),
-                  ),
-                  if (totalUnreadCount > 0)
-                    Positioned(
-                      right: 6,
-                      top: 6,
-                      child: Container(
-                        padding: EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        constraints: BoxConstraints(
-                          minWidth: 16,
-                          minHeight: 16,
-                        ),
-                        child: Text(
-                          totalUnreadCount > 99 ? '99+' : totalUnreadCount.toString(),
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 10,
-                            fontWeight: FontWeight.bold,
-                          ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                    ),
-                ],
-              );
-            },
-          ),
-          if (userRole == "admin")
-            _buildIconButton(Icons.list, "All Sessions", AdminSessionScreen()), 
-          if (userRole == "user")
-            _buildIconButton(Icons.history, "Session History", SessionHistoryScreen()), 
-          if (userRole == "mentor")
-            _buildIconButton(Icons.check_circle, "Approve Sessions", ApproveSessionScreen()), 
-          _buildIconButton(Icons.logout, "Logout", null, logout: true), 
-        ],
+        automaticallyImplyLeading: false,
       ),
 
       body: Column(

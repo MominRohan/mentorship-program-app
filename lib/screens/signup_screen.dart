@@ -24,7 +24,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
   final TextEditingController _expertiseController = TextEditingController();
   final TextEditingController _bioController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
-  String role = "user"; // Default role
+  final TextEditingController _ageController = TextEditingController();
+  String role = "mentee"; // Default role
 
   @override
   Widget build(BuildContext context) {
@@ -39,40 +40,30 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
           key: _formKey,
           child: Column(
             children: [
-         
-              TextFormField(
+              // Role Selection (moved to top)
+              _buildRoleDropdown(),
+              
+              SizedBox(height: 20),
+              
+              // Common fields for all roles
+              _buildTextField(
                 controller: _firstNameController,
-                decoration: InputDecoration(
-                  labelText: "First Name",
-                  prefixIcon: Icon(Icons.person),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                ),
-                validator: (value) =>
-                    value!.isEmpty ? "Enter your first name" : null,
+                label: "First Name",
+                icon: Icons.person,
+                validator: (value) => value!.isEmpty ? "Enter your first name" : null,
               ),
-
-              SizedBox(height: 16),
-
-              TextFormField(
+              
+              _buildTextField(
                 controller: _lastNameController,
-                decoration: InputDecoration(
-                  labelText: "Last Name",
-                  prefixIcon: Icon(Icons.person_outline),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                ),
-                validator: (value) =>
-                    value!.isEmpty ? "Enter your last name" : null,
+                label: "Last Name",
+                icon: Icons.person_outline,
+                validator: (value) => value!.isEmpty ? "Enter your last name" : null,
               ),
-
-              SizedBox(height: 16),
-
-              TextFormField(
+              
+              _buildTextField(
                 controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: "Email",
-                  prefixIcon: Icon(Icons.email),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                ),
+                label: "Email",
+                icon: Icons.email,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
                   if (value!.isEmpty) return "Enter your email";
@@ -83,77 +74,32 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                   return null;
                 },
               ),
-
-              SizedBox(height: 16),
-
-              TextFormField(
+              
+              _buildTextField(
                 controller: _passwordController,
-                decoration: InputDecoration(
-                  labelText: "Password",
-                  prefixIcon: Icon(Icons.lock),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                ),
-                obscureText: true,
+                label: "Password",
+                icon: Icons.lock,
+                isObscure: true,
                 validator: (value) => value!.length < 6
                     ? "Password must be at least 6 characters"
                     : null,
               ),
-
-              SizedBox(height: 16),
-
-              TextFormField(
-                controller: _addressController,
-                decoration: InputDecoration(
-                  labelText: "Address",
-                  prefixIcon: Icon(Icons.home),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                ),
-                validator: (value) =>
-                    value!.isEmpty ? "Enter your address" : null,
+              
+              _buildTextField(
+                controller: _confirmPasswordController,
+                label: "Confirm Password",
+                icon: Icons.lock_outline,
+                isObscure: true,
+                validator: (value) {
+                  if (value!.isEmpty) return "Confirm your password";
+                  if (value != _passwordController.text) return "Passwords do not match";
+                  return null;
+                },
               ),
-
-              SizedBox(height: 16),
-
-              TextFormField(
-                controller: _bioController,
-                decoration: InputDecoration(
-                  labelText: "Bio",
-                  prefixIcon: Icon(Icons.description),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                ),
-                validator: (value) => value!.isEmpty ? "Enter your bio" : null,
-              ),
-
-              SizedBox(height: 16),
-
-              TextFormField(
-                controller: _occupationController,
-                decoration: InputDecoration(
-                  labelText: "Occupation",
-                  prefixIcon: Icon(Icons.work),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                ),
-                validator: (value) =>
-                    value!.isEmpty ? "Enter your occupation" : null,
-              ),
-
-              SizedBox(height: 16),
-
-              TextFormField(
-                controller: _expertiseController,
-                decoration: InputDecoration(
-                  labelText: "Expertise",
-                  prefixIcon: Icon(Icons.star),
-                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                ),
-                validator: (value) =>
-                    value!.isEmpty ? "Enter your expertise" : null,
-              ),
-
-              SizedBox(height: 16),
-
-              _buildRoleDropdown(),
-
+              
+              // Role-specific fields
+              ..._buildRoleSpecificFields(),
+              
               SizedBox(height: 20),
 
               _buildSignupButton(),
@@ -209,7 +155,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
           labelText: "Select Role",
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
         ),
-        items: ["user", "admin"].map((String value) {
+        items: ["mentee", "mentor", "admin"].map((String value) {
           return DropdownMenuItem<String>(
             value: value,
             child: Text(value.toUpperCase()),
@@ -233,6 +179,13 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       ),
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
+          // Additional password confirmation check
+          if (_passwordController.text != _confirmPasswordController.text) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Passwords do not match!")),
+            );
+            return;
+          }
         
           FocusScope.of(context).unfocus();
 
@@ -241,11 +194,12 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
             lastName: _lastNameController.text,
             email: _emailController.text,
             password: _passwordController.text,
-            address: _addressController.text,
-            bio: _bioController.text,
-            occupation: _occupationController.text,
-            expertise: _expertiseController.text,
-            role: role,
+            address: role == 'mentee' ? '' : _addressController.text,
+            bio: role == 'mentee' ? '' : _bioController.text,
+            occupation: (role == 'mentor') ? _occupationController.text : '',
+            expertise: (role == 'mentor') ? _expertiseController.text : '',
+            role: role == 'mentee' ? 'user' : role,
+            age: role == 'mentee' ? int.tryParse(_ageController.text) : null,
           );
 
           bool success = await ref.read(authProvider.notifier).signup(newUser);
@@ -267,5 +221,53 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
       child: Text("Sign Up",
           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
     );
+  }
+
+  List<Widget> _buildRoleSpecificFields() {
+    List<Widget> fields = [];
+    
+    switch (role) {
+      case 'admin':
+        // Admin only needs basic fields (already included above)
+        break;
+        
+      case 'mentor':
+        fields.addAll([
+          _buildTextField(
+            controller: _occupationController,
+            label: "Occupation",
+            icon: Icons.work,
+            validator: (value) => value!.isEmpty ? "Enter your occupation" : null,
+          ),
+          _buildTextField(
+            controller: _expertiseController,
+            label: "Expertise",
+            icon: Icons.star,
+            validator: (value) => value!.isEmpty ? "Enter your expertise" : null,
+          ),
+        ]);
+        break;
+        
+      case 'mentee':
+        fields.add(
+          _buildTextField(
+            controller: _ageController,
+            label: "Age",
+            icon: Icons.cake,
+            keyboardType: TextInputType.number,
+            validator: (value) {
+              if (value!.isEmpty) return "Enter your age";
+              int? age = int.tryParse(value);
+              if (age == null || age < 13 || age > 100) {
+                return "Enter a valid age (13-100)";
+              }
+              return null;
+            },
+          ),
+        );
+        break;
+    }
+    
+    return fields;
   }
 }

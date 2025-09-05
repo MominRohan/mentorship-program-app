@@ -13,6 +13,8 @@ class User {
   final String occupation;
   final String expertise;
   final String role;
+  final bool isVerified;
+  final int? age; // For mentees
   
   // Computed properties for chat system compatibility
   String get name => '$firstName $lastName';
@@ -29,6 +31,8 @@ class User {
     required this.occupation,
     required this.expertise,
     this.role = "user",
+    this.isVerified = false,
+    this.age,
   });
   
   // Helper method to get string ID for chat system
@@ -46,6 +50,8 @@ class User {
       "occupation": occupation,
       "expertise": expertise,
       "role": role,
+      "isVerified": isVerified ? 1 : 0,
+      "age": age,
     };
   }
 
@@ -61,6 +67,8 @@ class User {
       occupation: json["occupation"],
       expertise: json["expertise"],
       role: json["role"],
+      isVerified: json["isVerified"] == 1,
+      age: json["age"],
     );
   }
 }

@@ -5,7 +5,7 @@ Developer: Momin Rohan
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/auth_provider.dart';
-import 'mentor_list_screen.dart';
+import '../utils/routes.dart';
 import 'signup_screen.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
@@ -92,9 +92,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             setState(() => _isLoading = false);
 
                             if (success) {
-                              Navigator.pushReplacement(
+                              Navigator.pushReplacementNamed(
                                 context,
-                                MaterialPageRoute(builder: (context) => MentorListScreen()),
+                                AppRoutes.home,
                               );
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
@@ -118,10 +118,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
                 TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignupScreen()),
-                    );
+                    Navigator.pushNamed(context, AppRoutes.signup);
                   },
                   child: Text("Don't have an account? Sign up"),
                 ),

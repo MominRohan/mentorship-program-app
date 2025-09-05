@@ -39,6 +39,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
         occupation: newUser.occupation.trim(),
         expertise: newUser.expertise.trim(),
         role: newUser.role,
+        age: newUser.age,
       );
 
       int result = await DBHelper.insertUser(securedUser);
