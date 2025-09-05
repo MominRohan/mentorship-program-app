@@ -58,7 +58,7 @@ class _MentorListScreenState extends ConsumerState<MentorListScreen> {
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(12),
-            color: Theme.of(context).primaryColorDark,
+            color: Colors.brown,
             child: Text(
               _getWelcomeMessage(userRole),
               style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white),

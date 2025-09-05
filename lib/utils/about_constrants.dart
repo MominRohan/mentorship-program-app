@@ -2,7 +2,7 @@
 
 class AppConstants {
   // App Information
-  static const String appName = "O'Neal's Mentoring App";
+  static const String appName = "Pathway To Purpose";
   static const String appVersion = "1.0.0";
   static const String appDescription = "Connect with experienced mentors and grow your skills through personalized guidance and support.";
   

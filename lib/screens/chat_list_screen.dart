@@ -10,6 +10,7 @@ import '../providers/chat_provider.dart';
 import '../providers/auth_provider.dart';
 import 'chat_screen.dart';
 import 'create_group_chat_screen.dart';
+import 'select_user_screen.dart';
 
 class ChatListScreen extends ConsumerStatefulWidget {
   @override
@@ -168,9 +169,10 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _navigateToCreateGroup,
-        backgroundColor: Color(0xFFBA8900), // primaryColor
-        child: Icon(Icons.chat, color: Colors.white),
+        onPressed: _showNewChatOptions,
+        backgroundColor: Theme.of(context).floatingActionButtonTheme.backgroundColor,
+        foregroundColor: Theme.of(context).floatingActionButtonTheme.foregroundColor,
+        child: Icon(Icons.chat),
         tooltip: 'New Chat',
       ),
     );
@@ -256,7 +258,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
           ],
         ),
         onTap: () => _navigateToChat(chatRoom),
-        onLongPress: () => _showChatOptions(chatRoom),
+        onLongPress: () => _showChatOptionsMenu(chatRoom),
       ),
     );
   }
@@ -290,13 +292,9 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
           ),
           SizedBox(height: 24),
           ElevatedButton.icon(
-            onPressed: _navigateToCreateGroup,
+            onPressed: _showNewChatOptions,
             icon: Icon(Icons.add),
             label: Text('Start New Chat'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Color(0xFFBA8900), // primaryColor
-              foregroundColor: Colors.white,
-            ),
           ),
         ],
       ),
@@ -349,7 +347,7 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
     );
   }
 
-  void _showChatOptions(ChatRoom chatRoom) {
+  void _showChatOptionsMenu(ChatRoom chatRoom) {
     showModalBottomSheet(
       context: context,
       builder: (context) => Container(
@@ -508,5 +506,126 @@ class _ChatListScreenState extends ConsumerState<ChatListScreen> {
 
   String _formatDate(DateTime dateTime) {
     return '${dateTime.day}/${dateTime.month}/${dateTime.year}';
+  }
+
+  void _showNewChatOptions() {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Container(
+        padding: EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              'Start New Chat',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(height: 24),
+            Row(
+              children: [
+                Expanded(
+                  child: _buildChatOptionCard(
+                    icon: Icons.person,
+                    title: 'Direct Message',
+                    subtitle: 'Chat with a mentor or mentee',
+                    color: Theme.of(context).colorScheme.primary,
+                    onTap: () {
+                      Navigator.pop(context);
+                      _navigateToSelectUser();
+                    },
+                  ),
+                ),
+                SizedBox(width: 16),
+                Expanded(
+                  child: _buildChatOptionCard(
+                    icon: Icons.group,
+                    title: 'Group Chat',
+                    subtitle: 'Create a group conversation',
+                    color: Colors.green,
+                    onTap: () {
+                      Navigator.pop(context);
+                      _navigateToCreateGroup();
+                    },
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChatOptionCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: color.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(12),
+          border: Border.all(
+            color: color.withOpacity(0.3),
+            width: 1,
+          ),
+        ),
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: color,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                icon,
+                color: Colors.white,
+                size: 24,
+              ),
+            ),
+            SizedBox(height: 12),
+            Text(
+              title,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(height: 4),
+            Text(
+              subtitle,
+              style: TextStyle(
+                color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.7),
+                fontSize: 12,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _navigateToSelectUser() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => SelectUserScreen(),
+      ),
+    );
   }
 }
