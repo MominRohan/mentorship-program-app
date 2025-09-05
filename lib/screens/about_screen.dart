@@ -90,7 +90,7 @@ class AboutScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 4),
-                  Text(
+                  Text(//can remove revolviz from here
                     AppConstants.companyName,
                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(context).textTheme.bodyMedium?.color?.withOpacity(0.5),
@@ -334,13 +334,14 @@ class AboutScreen extends StatelessWidget {
             const SizedBox(width: 12),
             Expanded(
               child: ElevatedButton.icon(
-                onPressed: () => _shareApp(context),
+                onPressed: () => _launchUrl(AppConstants.playStoreUrl, context),
                 icon: const Icon(Icons.share),
                 label: const Text('Share App'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green[600],
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 12),
+
                 ),
               ),
             ),
