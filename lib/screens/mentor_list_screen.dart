@@ -4,15 +4,18 @@ Developer: Momin Rohan
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../providers/auth_provider.dart';
-import '../providers/mentor_provider.dart';
 import '../models/mentor.dart';
-import 'request_session_screen.dart';
-import 'approve_session_screen.dart';
+import '../models/chat_room.dart';
+import '../providers/mentor_provider.dart';
+import '../providers/auth_provider.dart';
+import '../providers/chat_provider.dart';
+import '../utils/app_routes.dart';
 import 'session_history_screen.dart';
 import 'admin_session_screen.dart';
 import 'mentor_detail_screen.dart';
 import 'promote_mentor_screen.dart';
+import 'approve_session_screen.dart';
+import 'chat_list_screen.dart';
 
 class MentorListScreen extends ConsumerStatefulWidget {
   @override
@@ -45,6 +48,49 @@ class _MentorListScreenState extends ConsumerState<MentorListScreen> {
       appBar: AppBar(
         title: Text("🎓 Mentor List"),
         actions: [
+          // Chat button with unread count
+          Consumer(
+            builder: (context, ref, child) {
+              final totalUnreadCount = ref.watch(totalUnreadCountProvider);
+              return Stack(
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.chat, size: 28),
+                    tooltip: "Messages",
+                    onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => ChatListScreen()),
+                        ),
+                  ),
+                  if (totalUnreadCount > 0)
+                    Positioned(
+                      right: 6,
+                      top: 6,
+                      child: Container(
+                        padding: EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        constraints: BoxConstraints(
+                          minWidth: 16,
+                          minHeight: 16,
+                        ),
+                        child: Text(
+                          totalUnreadCount > 99 ? '99+' : totalUnreadCount.toString(),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 10,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                    ),
+                ],
+              );
+            },
+          ),
           if (userRole == "admin")
             _buildIconButton(Icons.list, "All Sessions", AdminSessionScreen()), 
           if (userRole == "user")
@@ -138,6 +184,38 @@ class _MentorListScreenState extends ConsumerState<MentorListScreen> {
     );
   }
 
+  Future<void> _startChatWithMentor(Mentor mentor) async {
+    final currentUser = ref.read(authProvider).user;
+    if (currentUser == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Please login to start a chat')),
+      );
+      return;
+    }
+
+    try {
+      final chatService = ref.read(chatServiceProvider);
+      ChatRoom? existingChat = await chatService.findOneOnOneChat(currentUser.stringId, mentor.id.toString());
+      
+      if (existingChat != null) {
+        AppRoutes.navigateToChat(context, existingChat);
+      } else {
+        final newChat = await chatService.createOneOnOneChat(
+          currentUser.stringId,
+          mentor.id.toString(),
+          currentUser.name,
+          mentor.name,
+        );
+        ref.refresh(chatRoomsProvider);
+        AppRoutes.navigateToChat(context, newChat);
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to start chat')),
+      );
+    }
+  }
+
   Widget _buildMentorCard(Mentor mentor, String userRole) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
@@ -155,16 +233,26 @@ class _MentorListScreenState extends ConsumerState<MentorListScreen> {
           Navigator.push(context, MaterialPageRoute(builder: (context) => MentorDetailScreen(mentor: mentor)));
         },
         trailing: userRole == "user"
-            ? ElevatedButton.icon(
-                icon: Icon(Icons.schedule, size: 16),
-                label: Text("Request"),
-                style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10)),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => RequestSessionScreen(mentor: mentor)),
-                  );
-                },
+            ? Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.chat, color: Colors.green),
+                    tooltip: "Start Chat",
+                    onPressed: () => _startChatWithMentor(mentor),
+                  ),
+                  ElevatedButton.icon(
+                    icon: Icon(Icons.schedule, size: 16),
+                    label: Text("Request"),
+                    style: ElevatedButton.styleFrom(padding: EdgeInsets.symmetric(vertical: 8, horizontal: 10)),
+                    onPressed: () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ApproveSessionScreen(),
+                          ),
+                        ),
+                  ),
+                ],
               )
             : null,
       ),

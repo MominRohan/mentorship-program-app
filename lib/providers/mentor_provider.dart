@@ -10,14 +10,43 @@ import '../services/db_helper.dart';
 class MentorState {
   final List<User> users;
   final List<Mentor> mentors;
+  final bool isLoading;
+  final String? error;
 
-  MentorState({this.users = const [], this.mentors = const []});
+  MentorState({
+    this.users = const [], 
+    this.mentors = const [],
+    this.isLoading = false,
+    this.error,
+  });
 
-  MentorState copyWith({List<User>? users, List<Mentor>? mentors}) {
+  MentorState copyWith({
+    List<User>? users, 
+    List<Mentor>? mentors,
+    bool? isLoading,
+    String? error,
+  }) {
     return MentorState(
       users: users ?? this.users,
       mentors: mentors ?? this.mentors,
+      isLoading: isLoading ?? this.isLoading,
+      error: error ?? this.error,
     );
+  }
+  
+  // Add when method for compatibility
+  T when<T>({
+    required T Function() loading,
+    required T Function(String error) error,
+    required T Function(List<User> users, List<Mentor> mentors) data,
+  }) {
+    if (this.error != null) {
+      return error(this.error!);
+    } else if (isLoading) {
+      return loading();
+    } else {
+      return data(users, mentors);
+    }
   }
 }
 

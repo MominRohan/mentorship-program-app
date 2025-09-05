@@ -62,7 +62,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'providers/auth_provider.dart';
 import 'providers/mentor_provider.dart';
 import 'providers/session_provider.dart';
-import 'screens/routes.dart';
+import 'utils/routes.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -77,7 +77,6 @@ class MyApp extends StatelessWidget {
       title: "Free Mentors",
       theme: ThemeData(primarySwatch: Colors.blue),
       initialRoute: AppRoutes.welcome,
-      routes: AppRoutes.getRoutes(),
       onGenerateRoute: AppRoutes.generateRoute,
     );
   }

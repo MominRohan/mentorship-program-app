@@ -6,6 +6,7 @@ import 'package:path/path.dart';
 import '../models/user.dart';
 import '../models/mentor.dart';
 import '../models/session.dart';
+import 'chat_service.dart';
 
 class DBHelper {
   static Database? _database;
@@ -27,7 +28,7 @@ class DBHelper {
     final path = join(await getDatabasesPath(), 'mentors_app.db');
     return openDatabase(
       path,
-      version: 2, // Update version if modifying schema
+      version: 3, // Update version if modifying schema
       onCreate: (db, version) async {
         await db.execute('''
           CREATE TABLE users (
@@ -53,11 +54,18 @@ class DBHelper {
             isApproved INTEGER DEFAULT 0
           )
         ''');
+        
+        // Create chat tables
+        await ChatService.createChatTables(db);
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
           await db
               .execute("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user'");
+        }
+        if (oldVersion < 3) {
+          // Create chat tables for existing databases
+          await ChatService.createChatTables(db);
         }
       },
     );

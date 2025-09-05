@@ -8,6 +8,9 @@ class Mentor {
   final String bio;
   final String occupation;
   final String expertise;
+  
+  // Avatar URL for profile picture (will be populated with Firebase)
+  String? get avatarUrl => null;
 
   Mentor({
     this.id,

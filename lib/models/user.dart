@@ -13,6 +13,10 @@ class User {
   final String occupation;
   final String expertise;
   final String role;
+  
+  // Computed properties for chat system compatibility
+  String get name => '$firstName $lastName';
+  String? get avatarUrl => null; // Will be added when Firebase is integrated
 
   User({
     this.id,
@@ -26,6 +30,9 @@ class User {
     required this.expertise,
     this.role = "user",
   });
+  
+  // Helper method to get string ID for chat system
+  String get stringId => id?.toString() ?? '';
 
   Map<String, dynamic> toJson() {
     return {
